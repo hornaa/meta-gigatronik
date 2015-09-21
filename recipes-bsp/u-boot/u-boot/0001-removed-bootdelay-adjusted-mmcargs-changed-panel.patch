@@ -1,0 +1,55 @@
+From b2d9086ce69d7a197c22104e4a72b0a7e0d03248 Mon Sep 17 00:00:00 2001
+From: Christian Panse <christian.panse@gigatronik.com>
+Date: Mon, 21 Sep 2015 11:34:21 +0200
+Subject: [PATCH] removed bootdelay adjusted mmcargs changed panel
+
+---
+ include/configs/mx6sxsabresd.h | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/include/configs/mx6sxsabresd.h b/include/configs/mx6sxsabresd.h
+index 0868976..ee99188 100644
+--- a/include/configs/mx6sxsabresd.h
++++ b/include/configs/mx6sxsabresd.h
+@@ -124,7 +124,8 @@
+ 
+ #undef CONFIG_CMD_IMLS
+ 
+-#define CONFIG_BOOTDELAY		3
++#define CONFIG_BOOTDELAY		0
++#define CONFIG_ZERO_BOOTDELAY_CHECK
+ 
+ #define CONFIG_LOADADDR			0x80800000
+ #define CONFIG_SYS_TEXT_BASE		0x87800000
+@@ -156,7 +157,7 @@
+ 
+ #ifdef CONFIG_VIDEO
+ #define CONFIG_VIDEO_MODE \
+-	"panel=Hannstar-XGA\0"
++	"panel=MCIMX28LCD\0"
+ #else
+ #define CONFIG_VIDEO_MODE ""
+ #endif
+@@ -181,7 +182,7 @@
+ 	"console=ttymxc0\0" \
+ 	"fdt_high=0xffffffff\0" \
+ 	"initrd_high=0xffffffff\0" \
+-	"fdt_file=imx6sx-sdb.dtb\0" \
++	"fdt_file=imx6sx-sdb_m4.dtb\0" \
+ 	"fdt_addr=0x83000000\0" \
+ 	"boot_fdt=try\0" \
+ 	"ip_dyn=yes\0" \
+@@ -189,8 +190,8 @@
+ 	"mmcpart=1\0" \
+ 	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
+ 	"mmcautodetect=yes\0" \
+-	"mmcargs=setenv bootargs console=${console},${baudrate} " \
+-		"root=${mmcroot}\0" \
++	"mmcargs=setenv bootargs uart_from_osc console=${console},${baudrate} " \
++		"root=${mmcroot} video=mxc_lcdif:SEIKO-WVGA,bpp=16\0" \
+ 	"loadbootscript=" \
+ 		"fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
+ 	"bootscript=echo Running bootscript from mmc ...; " \
+-- 
+1.9.1
+
