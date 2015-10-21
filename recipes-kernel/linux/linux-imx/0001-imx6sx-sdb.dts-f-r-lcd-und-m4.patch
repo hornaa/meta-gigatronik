@@ -1,0 +1,160 @@
+From e80280f2528cc23e6b207671db732f10c1fbba3f Mon Sep 17 00:00:00 2001
+From: Anja Unnasch <anja.unnasch@gigatronik.com>
+Date: Thu, 1 Oct 2015 14:19:56 +0200
+Subject: [PATCH] =?UTF-8?q?imx6sx-sdb.dts=20f=C3=BCr=20lcd=20und=20m4?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ arch/arm/boot/dts/imx6sx-sdb.dts | 54 ++++++++++++++++++++++++++++++++--------
+ 1 file changed, 43 insertions(+), 11 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx6sx-sdb.dts b/arch/arm/boot/dts/imx6sx-sdb.dts
+index c18ca77..349e755 100644
+--- a/arch/arm/boot/dts/imx6sx-sdb.dts
++++ b/arch/arm/boot/dts/imx6sx-sdb.dts
+@@ -20,6 +20,7 @@
+ 	};
+ 
+ 	memory {
++		linux,usable-memory = <0x80000000 0x3ff00000>;
+ 		reg = <0x80000000 0x40000000>;
+ 	};
+ 
+@@ -80,7 +81,7 @@
+ 			regulator-name = "lcd-3v3";
+ 			gpio = <&gpio3 27 0>;
+ 			enable-active-high;
+-			status = "disabled";
++			status = "okay";
+ 		};
+ 
+ 		vcc_sd3: regulator@0 {
+@@ -180,18 +181,18 @@
+ 		reset-gpios = <&gpio3 27 1>;
+ 		reset-delay-us = <100000>;
+ 		#reset-cells = <0>;
+-		status = "disabled";
++		status = "okay";
+ 	};
+ };
+ 
+ &adc1 {
+ 	vref-supply = <&reg_vref_3v3>;
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &adc2 {
+ 	vref-supply = <&reg_vref_3v3>;
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &audmux {
+@@ -201,7 +202,7 @@
+ };
+ 
+ &csi1 {
+-	status = "okay";
++	status = "disabled";
+ 
+ 	port {
+ 		csi1_ep: endpoint {
+@@ -250,7 +251,7 @@
+ 		     &pinctrl_lcdif_ctrl>;
+ 	lcd-supply = <&reg_lcd_3v3>;
+ 	display = <&display0>;
+-	status = "disabled";
++	status = "okay";
+ 
+ 	display0: display {
+ 		bits-per-pixel = <16>;
+@@ -358,7 +359,7 @@
+ 	pinctrl-0 = <&pinctrl_flexcan1>;
+ 	trx-en-gpio = <&gpio4 25 GPIO_ACTIVE_LOW>;
+ 	trx-stby-gpio = <&gpio4 27 GPIO_ACTIVE_LOW>;
+-	status = "okay";
++	status = "disable";
+ };
+ 
+ &flexcan2 {
+@@ -366,7 +367,7 @@
+ 	pinctrl-0 = <&pinctrl_flexcan2>;
+ 	trx-en-gpio = <&gpio4 25 GPIO_ACTIVE_LOW>;
+ 	trx-stby-gpio = <&gpio4 27 GPIO_ACTIVE_LOW>;
+-	status = "okay";
++	status = "disable";
+ };
+ 
+ &pcie {
+@@ -379,7 +380,7 @@
+ &qspi2 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_qspi2_1>;
+-	status = "okay";
++	status = "diasbled";
+ 
+ #ifndef SPANSIONFLASH
+ 	ddrsmp=<0>;
+@@ -404,6 +405,14 @@
+ #endif
+ };
+ 
++&qspi_m4 {
++	status = "okay";
++};
++
++&ocram {
++	reg = <0x00901000 0x1E000>;
++};
++
+ &pxp {
+ 	status = "okay";
+ };
+@@ -434,12 +443,11 @@
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_uart5>;
+ 	fsl,uart-has-rtscts;
+-	status = "okay";
++	status = "disable";
+ 	/* for DTE mode, add below change */
+ 	/* fsl,dte-mode;*/
+ 	/* pinctrl-0 = <&pinctrl_uart5dte_1>; */
+ };
+-
+ &usbotg1 {
+ 	vbus-supply = <&reg_usb_otg1_vbus>;
+ 	pinctrl-names = "default";
+@@ -1119,3 +1127,27 @@
+ 		};
+ 	};
+ };
++
++&clks {
++	fsl,shared-clks-number = <0x23>;
++	fsl,shared-clks-index = <IMX6SX_CLK_PLL2_BUS IMX6SX_CLK_PLL2_PFD0
++			IMX6SX_CLK_PLL2_PFD2 IMX6SX_CLK_PLL3_USB_OTG
++			IMX6SX_CLK_PLL3_PFD1 IMX6SX_CLK_PLL3_PFD2
++			IMX6SX_CLK_PLL3_PFD3 IMX6SX_CLK_PLL4_AUDIO
++			IMX6SX_CLK_PLL5_VIDEO
++			IMX6SX_CLK_OCRAM IMX6SX_CLK_CAN1_SERIAL
++			IMX6SX_CLK_CAN1_IPG IMX6SX_CLK_CAN2_SERIAL
++			IMX6SX_CLK_CAN2_IPG IMX6SX_CLK_CANFD
++			IMX6SX_CLK_ECSPI1 IMX6SX_CLK_ECSPI2
++			IMX6SX_CLK_ECSPI3 IMX6SX_CLK_ECSPI4
++			IMX6SX_CLK_ECSPI5 IMX6SX_CLK_QSPI1
++			IMX6SX_CLK_QSPI2 IMX6SX_CLK_SSI1
++			IMX6SX_CLK_SSI2 IMX6SX_CLK_SSI3
++			IMX6SX_CLK_UART_SERIAL IMX6SX_CLK_UART_IPG
++			IMX6SX_CLK_PERIPH_CLK2_SEL IMX6SX_CLK_OCRAM_ALT_SEL
++			IMX6SX_CLK_I2C1 IMX6SX_CLK_I2C2
++			IMX6SX_CLK_I2C3 IMX6SX_CLK_I2C4
++			IMX6SX_CLK_EPIT1 IMX6SX_CLK_EPIT2>;
++	fsl,shared-mem-addr = <0x91F000>;
++	fsl,shared-mem-size = <0x1000>;
++};
+-- 
+1.9.1
+

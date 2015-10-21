@@ -1,0 +1,26 @@
+From cf72198f2ae760d8c0b07339187209227b86e679 Mon Sep 17 00:00:00 2001
+From: Anja Unnasch <anja.unnasch@gigatronik.com>
+Date: Tue, 29 Sep 2015 10:38:27 +0200
+Subject: [PATCH] imx_v7_defconfig changed for defconfig
+
+---
+ arch/arm/configs/imx_v7_defconfig | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm/configs/imx_v7_defconfig b/arch/arm/configs/imx_v7_defconfig
+index 303e679..4d2999f 100644
+--- a/arch/arm/configs/imx_v7_defconfig
++++ b/arch/arm/configs/imx_v7_defconfig
+@@ -411,3 +411,9 @@ CONFIG_LIBCRC32C=m
+ CONFIG_FONTS=y
+ CONFIG_FONT_8x8=y
+ CONFIG_FONT_8x16=y
++
++#mcc treiber gigatronik
++CONFIG_IMX_SEMA4=y
++CONFIG_IMX_MCC_TEST=n
++CONFIG_IMX_MCC_TTY=n
++CONFIG_IMX_MCC_CHAR_COM=y
+-- 
+1.9.1
+

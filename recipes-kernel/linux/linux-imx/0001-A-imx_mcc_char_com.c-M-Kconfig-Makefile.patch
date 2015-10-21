@@ -184,7 +184,7 @@ index 0000000..fedae82
 +
 +        if (ret == 0)
 +        {
-+            pr_info("Sent %d characters to the user\n", strlen(char_msg.data));
++            //pr_info("Sent %d characters to the user\n", strlen(char_msg.data));
 +            /* return number of successfully sent data */
 +            return strlen(char_msg.data);
 +        }
